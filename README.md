@@ -72,7 +72,3 @@ Before submitting, update the `TODO` in the "Video Demo" section above with your
 
 - Recipe data powered by the [Spoonacular API](https://spoonacular.com/food-api).
 - Project for Harvard CS50: Introduction to Computer Science.
-
----
-
-**Good luck with your submission!**
