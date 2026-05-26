@@ -1,32 +1,78 @@
 # FreshlyFridge
-#### Video Demo: TODO
-#### Description:
 
-FreshlyFridge is a Flask web application that helps users discover recipes based on the ingredients they already have at home. The idea behind the project is simple: instead of starting with a recipe and then buying every missing ingredient, users can begin with what is already in their fridge and receive recipe suggestions that make practical use of those ingredients. The application combines user accounts, a SQLite database, dynamic recipe searching, saved favourites, and a polished food-focused interface.
+#### Video Demo: TODO – Replace with your demo video URL
 
-The app is built with Python, Flask, SQLite, Jinja templates, JavaScript, HTML, and CSS. It uses the Spoonacular API to search for recipes and to fetch detailed recipe information. Users can register for an account, log in, add ingredients as chips, use quick ingredient suggestions, choose optional filters such as diet, intolerances, meal type, maximum missing ingredients, and maximum ready time, and then search for recipe matches. Results can be ranked by best match, fewest missing ingredients, fastest recipes, health score, or highest API score. Results are displayed as visual recipe cards, and users can save recipes to their favourites list for later.
+## Description
 
-The main application logic is in `app.py`. This file configures Flask, sessions, SQLite, and the app routes. It contains the authentication routes for registering, logging in, and logging out, the protected home page route, the JSON recipe-search endpoint at `/api/search`, the recipe detail route at `/recipe/<recipe_id>`, the favourite-saving endpoint at `/api/favourite`, and the favourites page route at `/favourites`. I kept the backend routes relatively small so that each route has a clear responsibility.
+FreshlyFridge is an interactive Flask web application designed to help users discover recipes based on the ingredients they already have at home. Instead of searching for recipes first and then shopping for ingredients, FreshlyFridge reverses the process, reducing food waste and promoting cooking creativity.
 
-The helper functions are in `helpers.py`. This file contains the `login_required` decorator, the `apology` helper for displaying errors, and the API helper functions that communicate with Spoonacular. `lookup_ingredients` sends ingredient and filter data to Spoonacular's recipe search API, while `get_recipe_information` fetches detailed information for a single recipe. Keeping these helpers separate from `app.py` makes the route code easier to read and avoids mixing API-request details with page-rendering logic.
+The app is built with Python, Flask, SQLite, Jinja templates, JavaScript, HTML, and CSS. It harnesses the Spoonacular API to fetch real recipes, with detailed ingredient and preparation steps.
 
-The database schema is defined in `schema.sql`. The project uses a `users` table for registered accounts and a `favourites` table for recipes saved by each user. The actual local database file is `app.db`, but it is intentionally ignored in `.gitignore` because it contains local runtime data. The schema file is the important submitted source file because it explains how the database should be created.
+## Features
 
-The page templates are in the `templates` folder. `layout.html` defines the shared page structure, including the navigation bar and the FreshlyFridge brand. `index.html` contains the main ingredient-search experience. `login.html` and `register.html` provide the account pages. `favourites.html` displays the recipes saved by the logged-in user. `recipe_detail.html` shows detailed recipe information, including preparation time, servings, ingredients, summary, and instructions. `apology.html` displays user-friendly error messages.
+- **User Authentication:** Register and log in to save your favorite recipes.
+- **Smart Recipe Search:** Enter the ingredients you have, and FreshlyFridge suggests matching recipes.
+- **Personalized Favorites:** Save and manage your favorite recipes for later reference.
+- **Responsive Design:** Works well on both desktop and mobile devices for flexibility in your kitchen.
+- **Modern UI:** Enjoy a visually appealing interface with fresh colors and intuitive navigation.
 
-The visual design and responsive layout are handled in `static/styles.css`. I redesigned the application around a fresh food-site style: large typography, soft green accents, pale yellow cards, circular recipe images, pill-shaped controls, and a spacious landing-page layout. The same design system is reused across the home page, recipe results, favourites page, authentication pages, recipe detail page, and error page. I chose this approach so the project feels like one complete product rather than separate pages stitched together.
+## Project Structure
 
-The client-side behavior is in `static/script.js`. It handles the ingredient chip input, quick ingredient buttons, removes chips when requested, sends search requests to `/api/search`, renders recipe cards dynamically, applies client-side filters, ranks results, updates result counts, and saves favourites by posting to `/api/favourite`. I used JavaScript for these parts because the search experience should feel immediate and interactive without requiring a full page refresh for every recipe result.
+- `app.py` – Main application logic: configures Flask, handles routes, authentication, user sessions, the core search logic, and integration with the Spoonacular API.
+- `helpers.py` – Contains helper functions: `login_required`, the `apology` error handler, and utility APIs.
+- `schema.sql` – Database schema with tables for users and favorites.
+- `templates/` – Jinja2 HTML templates for different pages. `layout.html` provides the main structure.
+- `static/styles.css` – Stylesheet creating a modern food-themed design.
+- `static/script.js` – Manages client-side interactivity, including ingredient management and AJAX search.
 
-One design choice I considered carefully was whether to make recipe searching a traditional form submission or a JavaScript-powered interaction. I chose the JavaScript approach because ingredient chips, loading states, dynamic cards, ranking controls, and favourite buttons are more natural when handled on the client side. Another design decision was to keep saved favourites in the local SQLite database while fetching full recipe details from the API when needed. This keeps the favourites table small while still allowing each saved recipe to open into a full detail page with nutrition highlights, recipe tags, source links, estimated cost, health score, ingredients, and instructions.
+## Setup and Usage
 
-To run the project locally, install the dependencies in `requirements.txt`, create a `.env` file containing a valid `SPOONACULAR_KEY`, initialize the SQLite database using `schema.sql`, and run the Flask app. For example:
+1. **Install Dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-```bash
-pip install -r requirements.txt
-flask --app app run
-```
+2. **Get Spoonacular API Key:**
+    - Sign up at [Spoonacular](https://spoonacular.com/food-api) to get your free API key.
 
-The `.env`, virtual environment, database file, Python cache folders, and Flask session files are ignored because they are local runtime files rather than source code. The submitted project should include the Python files, templates, static assets, schema, requirements file, README, and any documentation files.
+3. **Configure Environment:**
+    - Create a `.env` file with your API key:
+      ```
+      SPOONACULAR_KEY=your_api_key_here
+      ```
 
-Before submitting, replace `TODO` in the `Video Demo` line with the URL of the recorded demo video. The demo should show the app running, including registration or login, adding ingredients, searching for recipes, saving a favourite, viewing favourites, and opening a recipe detail page.
+4. **Initialize the Database:**
+    ```bash
+    sqlite3 fridge.db < schema.sql
+    ```
+
+5. **Run the Application:**
+    ```bash
+    flask --app app run
+    ```
+
+6. **Open in Browser:**
+    - Visit `http://127.0.0.1:5000/` to use FreshlyFridge locally.
+
+## Demo Video
+
+Before submitting, update the `TODO` in the "Video Demo" section above with your video link. The demo should show:
+- Registering or logging in
+- Adding/removing ingredients
+- Finding and viewing recipes
+- Saving favorites
+- Logging out
+
+## Submission Details
+
+- `.env`, your local database, Python virtual environment folders, cache files, and Flask session files are excluded from submission for security and cleanliness.
+- Only source code and required project files should be in the submission.
+
+## Acknowledgments
+
+- Recipe data powered by the [Spoonacular API](https://spoonacular.com/food-api).
+- Project for Harvard CS50: Introduction to Computer Science.
+
+---
+
+**Good luck with your submission!**
