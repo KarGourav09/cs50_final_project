@@ -1,0 +1,141 @@
+{% extends "layout.html" %}
+{% block title %}{{ recipe.title }}{% endblock %}
+
+{% block main %}
+<div class="recipe-page">
+    <div class="recipe-header-detail">
+        <div>
+            <div class="hero-eyebrow">Recipe details</div>
+            <h1>{{ recipe.title }}</h1>
+            <div class="recipe-meta-banner">
+                <span class="meta-pill">{{ recipe.readyInMinutes }} mins</span>
+                <span class="meta-pill">{{ recipe.servings }} servings</span>
+                {% if recipe.healthScore is defined %}<span class="meta-pill">Health {{ recipe.healthScore|round|int }}/100</span>{% endif %}
+                {% if recipe.vegetarian %}<span class="meta-pill">Vegetarian</span>{% endif %}
+                {% if recipe.vegan %}<span class="meta-pill">Vegan</span>{% endif %}
+                {% if recipe.glutenFree %}<span class="meta-pill">Gluten-Free</span>{% endif %}
+            </div>
+        </div>
+        <img src="{{ recipe.image }}" alt="{{ recipe.title }}" class="recipe-hero-img-detail">
+    </div>
+    
+    <div class="recipe-summary-box">
+        {{ recipe.summary | safe }}
+    </div>
+
+    <div class="detail-stats-grid">
+        <div class="stat-card">
+            <span>Ready In</span>
+            <strong>{{ recipe.readyInMinutes }} min</strong>
+        </div>
+        <div class="stat-card">
+            <span>Servings</span>
+            <strong>{{ recipe.servings }}</strong>
+        </div>
+        {% if recipe.healthScore is defined %}
+        <div class="stat-card">
+            <span>Health Score</span>
+            <strong>{{ recipe.healthScore|round|int }}/100</strong>
+        </div>
+        {% endif %}
+        {% if recipe.spoonacularScore is defined %}
+        <div class="stat-card">
+            <span>Recipe Score</span>
+            <strong>{{ recipe.spoonacularScore|round|int }}%</strong>
+        </div>
+        {% endif %}
+        {% if recipe.pricePerServing is defined %}
+        <div class="stat-card">
+            <span>Est. Cost</span>
+            <strong>${{ (recipe.pricePerServing / 100)|round(2) }}</strong>
+        </div>
+        {% endif %}
+    </div>
+
+    {% if recipe.cuisines or recipe.dishTypes or recipe.diets %}
+    <div class="recipe-section recipe-tags-section">
+        <h3>Recipe Profile</h3>
+        <div class="tag-cloud">
+            {% for cuisine in recipe.cuisines %}
+                <span>{{ cuisine }}</span>
+            {% endfor %}
+            {% for dish in recipe.dishTypes %}
+                <span>{{ dish }}</span>
+            {% endfor %}
+            {% for diet in recipe.diets %}
+                <span>{{ diet }}</span>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if recipe.nutrition and recipe.nutrition.nutrients %}
+    <div class="recipe-section nutrition-section">
+        <h3>Nutrition Highlights</h3>
+        <div class="nutrition-grid">
+            {% for nutrient in recipe.nutrition.nutrients %}
+                {% if nutrient.name in ["Calories", "Protein", "Fat", "Carbohydrates", "Fiber", "Sugar"] %}
+                <div class="nutrition-item">
+                    <span>{{ nutrient.name }}</span>
+                    <strong>{{ nutrient.amount|round(1) }} {{ nutrient.unit }}</strong>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    
+    <div class="recipe-body">
+        <div class="recipe-section ingredients-list-section">
+            <h3>Ingredients</h3>
+            <div class="ingredients-list">
+                <ul>
+                    {% for item in recipe.extendedIngredients %}
+                    <li>{{ item.original }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        
+        <div class="recipe-section instructions-list-section">
+            <h3>Instructions</h3>
+            <div class="instructions-list">
+                {% if recipe.analyzedInstructions and recipe.analyzedInstructions|length > 0 %}
+                    <ol>
+                        {% for step in recipe.analyzedInstructions[0].steps %}
+                        <li>
+                            {{ step.step }}
+                            {% if step.equipment %}
+                            <p class="step-equipment">
+                                Tools:
+                                {% for tool in step.equipment %}
+                                    {{ tool.name }}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </p>
+                            {% endif %}
+                        </li>
+                        {% endfor %}
+                    </ol>
+                {% else %}
+                    <p>Instructions are not available for this recipe.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% if recipe.sourceUrl %}
+    <div class="source-card">
+        <div>
+            <h3>Original Source</h3>
+            {% if recipe.creditsText %}<p>{{ recipe.creditsText }}</p>{% endif %}
+        </div>
+        <a href="{{ recipe.sourceUrl }}" target="_blank" rel="noopener" class="btn-fresh">
+            <span class="btn-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3zM5 5h6v2H7v10h10v-4h2v6H5V5z"/></svg>
+            </span>
+            Open Source
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

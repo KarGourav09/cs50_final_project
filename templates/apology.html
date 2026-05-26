@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block title %}Apology{% endblock %}
+{% block main %}
+<div class="apology-page">
+    <div class="apology-copy">
+        <div class="hero-eyebrow">Something is off</div>
+        <h1>This recipe path needs another look.</h1>
+        <p>The app could not finish that request, but you can head back and try a fresh search.</p>
+    </div>
+    <div class="apology-card">
+        <h2>Apology</h2>
+        <p class="error-code">{{ top }}</p>
+        <p class="error-msg">{{ bottom }}</p>
+    </div>
+</div>
+{% endblock %}

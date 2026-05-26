@@ -1,0 +1,125 @@
+{% extends "layout.html" %}
+{% block title %}Search{% endblock %}
+{% block main %}
+<div class="hero-section">
+    <div class="hero-left">
+        <div class="hero-eyebrow">Fridge-first meals</div>
+        <h1>Wake Up Early<span class="green-text">Eat Fresh & Healthy</span></h1>
+        <p>Turn the ingredients you already have into fresh recipe ideas. Add what is in your fridge, choose your preferences, and pick a bowl-worthy meal in seconds.</p>
+        
+        <div class="search-input-wrapper">
+            <div id="chipContainer" class="chip-container">
+                <input type="text" id="ingredientInput" placeholder="Add ingredients, then press Enter" autocomplete="off"/>
+            </div>
+            <div class="quick-ingredients" aria-label="Quick ingredient suggestions">
+                <button type="button" data-ingredient="chicken">Chicken</button>
+                <button type="button" data-ingredient="rice">Rice</button>
+                <button type="button" data-ingredient="tomato">Tomato</button>
+                <button type="button" data-ingredient="egg">Egg</button>
+                <button type="button" data-ingredient="pasta">Pasta</button>
+            </div>
+            <details class="details-wrapper">
+                <summary>Advanced Filters</summary>
+                <div class="filters-grid">
+                    <div class="filter-group">
+                        <label>Diet</label>
+                        <select id="filterDiet" class="form-control">
+                           <option value="">Any</option>
+                           <option value="vegetarian">Vegetarian</option>
+                           <option value="vegan">Vegan</option>
+                           <option value="gluten free">Gluten Free</option>
+                           <option value="ketogenic">Ketogenic</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Intolerances</label>
+                        <select id="filterIntolerances" class="form-control">
+                           <option value="">None</option>
+                           <option value="dairy">Dairy</option>
+                           <option value="peanut">Peanut</option>
+                           <option value="shellfish">Shellfish</option>
+                           <option value="soy">Soy</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Meal Type</label>
+                        <select id="filterType" class="form-control">
+                           <option value="">Any</option>
+                           <option value="main course">Main Course</option>
+                           <option value="breakfast">Breakfast</option>
+                           <option value="dessert">Dessert</option>
+                           <option value="snack">Snack</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Max Missing</label>
+                        <select id="filterMaxMissing" class="form-control">
+                           <option value="-1">Show All</option>
+                           <option value="0">Missing No Ingredients</option>
+                           <option value="1">Missing Max 1</option>
+                           <option value="2">Missing Max 2</option>
+                           <option value="3">Missing Max 3</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Max Ready Time</label>
+                        <select id="filterMaxReadyTime" class="form-control">
+                           <option value="-1">Any Time</option>
+                           <option value="15">15 Minutes</option>
+                           <option value="30">30 Minutes</option>
+                           <option value="45">45 Minutes</option>
+                           <option value="60">60 Minutes</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Sort Results</label>
+                        <select id="filterSort" class="form-control">
+                           <option value="best">Best Match</option>
+                           <option value="fewest-missing">Fewest Missing</option>
+                           <option value="fastest">Fastest</option>
+                           <option value="healthiest">Healthiest</option>
+                           <option value="popular">Highest Rated</option>
+                        </select>
+                    </div>
+                </div>
+            </details>
+        </div>
+        
+        <button id="searchBtn" class="btn-fresh">
+            <span class="btn-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            </span>
+            Find Recipes
+        </button>
+    </div>
+    
+    <div class="hero-right">
+        <div class="hero-bg-circle"></div>
+        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&amp;w=1200&amp;auto=format&amp;fit=crop" class="hero-img-bowl" alt="Fresh salad bowl">
+        <img src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?q=80&amp;w=240&amp;auto=format&amp;fit=crop" class="floating-img float-1" alt="Tomatoes">
+        <img src="https://images.unsplash.com/photo-1584270354949-c26b0d5b4a0c?q=80&amp;w=240&amp;auto=format&amp;fit=crop" class="floating-img float-2" alt="Pepper">
+        <img src="https://images.unsplash.com/photo-1597362925123-77861d3afac5?q=80&amp;w=240&amp;auto=format&amp;fit=crop" class="floating-img float-3" alt="Greens">
+        <img src="https://images.unsplash.com/photo-1459411621453-7b03977f4bfc?q=80&amp;w=240&amp;auto=format&amp;fit=crop" class="floating-img float-4" alt="Broccoli">
+    </div>
+</div>
+
+<div id="loading" class="hidden">
+    Finding delicious matches...
+</div>
+
+<div class="search-results-section hidden" id="resultsSection">
+    <h2 class="section-title">Pick Your Bowl</h2>
+    <p class="section-subtitle">Fresh recipe matches based on the ingredients you have on hand, with quick notes on what you will use and what you may still need.</p>
+    <div class="result-toolbar">
+        <p id="resultsCount">No recipes searched yet.</p>
+        <button type="button" id="rerankBtn" class="btn-pill hidden">Apply Sort & Filters</button>
+    </div>
+    <div id="resultsGrid" class="recipe-grid">
+        <!-- Results injected here -->
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="/static/script.js"></script>
+{% endblock %}

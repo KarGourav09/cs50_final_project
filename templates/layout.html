@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <title>FreshlyFridge - {% block title %}{% endblock %}</title>
+        <!-- Main CSS -->
+        <link href="/static/styles.css" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="nav-left" aria-label="Primary navigation">
+                <a href="/">Home</a>
+                {% if session.get("user_id") %}
+                    <a href="/favourites">Favourites</a>
+                {% endif %}
+            </div>
+            
+            <div class="nav-brand">
+                <a href="/" aria-label="FreshlyFridge home">FreshlyFridge<span class="brand-leaf" aria-hidden="true"></span></a>
+            </div>
+            
+            <div class="nav-right">
+                {% if session.get("user_id") %}
+                    <a href="/logout">Log Out</a>
+                {% else %}
+                    <a href="/login">Log In</a>
+                    <a href="/register">Register</a>
+                {% endif %}
+            </div>
+        </nav>
+        
+        <main class="container">
+            {% block main %}{% endblock %}
+        </main>
+        
+        {% block script %}{% endblock %}
+    </body>
+</html>

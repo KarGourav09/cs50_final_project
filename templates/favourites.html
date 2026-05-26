@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block title %}Favourites{% endblock %}
+{% block main %}
+<div class="page-hero">
+    <div class="hero-eyebrow">Saved picks</div>
+    <h1 class="page-title">Your Favourites</h1>
+    <p class="page-subtitle">Keep your best fridge finds close, then come back when you are ready to cook.</p>
+</div>
+
+<div class="page-section">
+<div class="recipe-grid favourites-grid">
+    {% for recipe in recipes %}
+    <div class="recipe-card">
+        <img src="{{ recipe.image }}" alt="{{ recipe.title }}" class="recipe-img">
+        <div class="recipe-backdrop"></div>
+        <div class="recipe-content">
+            <h3 class="recipe-title">{{ recipe.title }}</h3>
+            <p class="recipe-id">Recipe ID: {{ recipe.recipe_id }}</p>
+            <a href="/recipe/{{ recipe.recipe_id }}" class="btn-fresh">
+                <span class="btn-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M12 5c-4.5 0-8.3 2.8-10 7 1.7 4.2 5.5 7 10 7s8.3-2.8 10-7c-1.7-4.2-5.5-7-10-7zm0 11.5A4.5 4.5 0 1 1 12 7a4.5 4.5 0 0 1 0 9.5zm0-1.8A2.7 2.7 0 1 0 12 9a2.7 2.7 0 0 0 0 5.7z"/></svg>
+                </span>
+                View Recipe
+            </a>
+        </div>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <p>You have not saved any recipes yet. Search with a few ingredients and save the bowls you want to revisit.</p>
+    </div>
+    {% endfor %}
+</div>
+</div>
+{% endblock %}
