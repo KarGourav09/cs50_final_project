@@ -28,5 +28,3 @@ flask --app app run
 ```
 
 The `.env`, virtual environment, database file, Python cache folders, and Flask session files are ignored because they are local runtime files rather than source code. The submitted project should include the Python files, templates, static assets, schema, requirements file, README, and any documentation files.
-
-Before submitting, replace `TODO` in the `Video Demo` line with the URL of the recorded demo video. The demo should show the app running, including registration or login, adding ingredients, searching for recipes, saving a favourite, viewing favourites, and opening a recipe detail page.

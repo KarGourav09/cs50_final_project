@@ -111,6 +111,14 @@ document.addEventListener("DOMContentLoaded", () => {
         resultsCount.textContent = `Showing ${visibleCount} of ${totalCount} recipe matches`;
     }
 
+    function scrollToRecipes() {
+        // Images can change card height after rendering, so scroll shortly after
+        // the DOM update to land on the visible recipe cards, not above them.
+        window.setTimeout(() => {
+            resultsGrid.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 100);
+    }
+
     function formatIngredientNames(items) {
         if (!items || items.length === 0) return "None listed";
         return items.slice(0, 3).map(item => item.name).join(", ");
@@ -227,27 +235,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    ingredientInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === ",") {
-            e.preventDefault();
-            addIngredient(ingredientInput.value);
-        }
-    });
-
-    quickIngredientButtons.forEach(button => {
-        button.addEventListener("click", () => addIngredient(button.dataset.ingredient));
-    });
-
-    rerankBtn.addEventListener("click", () => {
-        renderRecipes(applyResultPreferences(currentResults));
-    });
-
-    searchBtn.addEventListener("click", async () => {
+    async function runRecipeSearch() {
         addIngredient(ingredientInput.value);
 
         if (ingredients.length === 0) {
             alert("Please add at least one ingredient");
-            return;
+            return false;
         }
 
         const filters = readFilters();
@@ -275,11 +268,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
             currentResults = data;
             renderRecipes(applyResultPreferences(currentResults));
-            resultsSection.scrollIntoView({ behavior: "smooth", block: "start" });
+            scrollToRecipes();
+            return true;
         } catch (err) {
             alert("Error: " + err.message);
+            return false;
         } finally {
             loading.classList.add("hidden");
         }
+    }
+
+    ingredientInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            runRecipeSearch();
+        } else if (e.key === ",") {
+            e.preventDefault();
+            addIngredient(ingredientInput.value);
+        }
+    });
+
+    quickIngredientButtons.forEach(button => {
+        button.addEventListener("click", () => addIngredient(button.dataset.ingredient));
+    });
+
+    rerankBtn.addEventListener("click", () => {
+        renderRecipes(applyResultPreferences(currentResults));
+        scrollToRecipes();
+    });
+
+    searchBtn.addEventListener("click", () => {
+        runRecipeSearch();
     });
 });
