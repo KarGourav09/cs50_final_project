@@ -1,6 +1,6 @@
 # FreshlyFridge
 
-#### Video Demo: TODO – Replace with your demo video URL
+#### Video Demo: [text](https://youtu.be/Kj2hQnU0C7w)
 
 ## Description
 
@@ -84,7 +84,7 @@ Whether you’re stuck with random ingredients or want healthier, more efficient
       ```
 4. **Initialize the Database:**
     ```bash either:
-    
+
     python -c "import sqlite3; s=open('schema.sql').read(); conn=sqlite3.connect('app.db'); conn.executescript(s); conn.close(); print('DB initialized')"
 
     or,if you have sqlite3 CLI:
