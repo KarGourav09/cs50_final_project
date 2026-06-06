@@ -83,7 +83,12 @@ Whether you’re stuck with random ingredients or want healthier, more efficient
       SPOONACULAR_KEY=your_api_key_here
       ```
 4. **Initialize the Database:**
-    ```bash
+    ```bash either:
+    
+    python -c "import sqlite3; s=open('schema.sql').read(); conn=sqlite3.connect('app.db'); conn.executescript(s); conn.close(); print('DB initialized')"
+
+    or,if you have sqlite3 CLI:
+
     sqlite3 fridge.db < schema.sql
     ```
 5. **Run the Application:**
