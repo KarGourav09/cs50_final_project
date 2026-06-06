@@ -1,6 +1,6 @@
 # FreshlyFridge
 
-#### Video Demo: [text](https://youtu.be/Kj2hQnU0C7w)
+#### Video Demo: [link](https://youtu.be/Kj2hQnU0C7w)
 
 ## Description
 
