@@ -98,16 +98,6 @@ Whether you’re stuck with random ingredients or want healthier, more efficient
 6. **Open in Browser:**
     - Visit [http://127.0.0.1:5000/](http://127.0.0.1:5000/) to use FreshlyFridge locally.
 
-## Demo Video
-
-Before submitting, update the `TODO` in the "Video Demo" section above with your video link. The demo should clearly and efficiently show:
-- Registering/logging in
-- Adding/removing ingredients
-- Setting filters
-- Finding and viewing recipes
-- Saving/reviewing favorites
-- Logging out
-
 ## Submission Details
 
 - `.env`, database files, Python virtual environment, cache, and Flask session files are **excluded** from submission (see `.gitignore`).
